@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Mail } from "lucide-react";
 import { contactLinks } from "../data/contact";
+import { EmailModal } from "./EmailModal";
 
 const GitHubIcon = ({ className = "w-5 h-5" }) => (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -20,6 +22,8 @@ const WhatsAppIcon = ({ className = "w-5 h-5" }) => (
 );
 
 export const Contact = ({ hasAnimated = {} }) => {
+    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+
     const getIcon = (label) => {
         const text = label?.toLowerCase() || "";
         if (text.includes("whatsapp")) {
@@ -34,14 +38,21 @@ export const Contact = ({ hasAnimated = {} }) => {
         return <LinkedinIcon className="w-5 h-5 mr-2" />;
     };
 
+    const handleLinkClick = (e, link) => {
+        if (link.href.startsWith("mailto:")) {
+            e.preventDefault();
+            setIsEmailModalOpen(true);
+        }
+    };
+
     return (
         <section id="contact" className="relative py-24 px-6 bg-[#0b0f19] text-white overflow-hidden">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-[500px] sm:h-[500px] bg-gradient-to-r from-blue-600/15 to-purple-600/15 rounded-full blur-2xl sm:blur-3xl transform-gpu"></div>
             </div>
 
             <div className="relative z-10 max-w-4xl mx-auto text-center">
-                <div className={`transition-all duration-1000 delay-500 ${hasAnimated?.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className={`transition-all duration-500 ease-out ${hasAnimated?.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-300 mb-4">
                         <span>Hablemos</span>
                     </div>
@@ -53,21 +64,31 @@ export const Contact = ({ hasAnimated = {} }) => {
                     </p>
 
                     <div className="flex flex-wrap items-center justify-center gap-4">
-                        {contactLinks.map((link, index) => (
-                            <a
-                                key={index}
-                                href={link.href}
-                                target={link.href.startsWith("mailto") ? "_self" : "_blank"}
-                                rel="noopener noreferrer"
-                                className={`flex items-center justify-center ${link.className}`}
-                            >
-                                {getIcon(link.label)}
-                                <span>{link.label}</span>
-                            </a>
-                        ))}
+                        {contactLinks.map((link, index) => {
+                            const isEmail = link.href.startsWith("mailto:");
+                            return (
+                                <a
+                                    key={index}
+                                    href={link.href}
+                                    target={isEmail ? "_self" : "_blank"}
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => handleLinkClick(e, link)}
+                                    className={`flex items-center justify-center cursor-pointer ${link.className}`}
+                                >
+                                    {getIcon(link.label)}
+                                    <span>{link.label}</span>
+                                </a>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
+
+            <EmailModal
+                isOpen={isEmailModalOpen}
+                onClose={() => setIsEmailModalOpen(false)}
+                email="jesusmanuelsanchezquinonez@gmail.com"
+            />
         </section>
     );
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { ArrowDown, Mail } from "lucide-react";
 import { heroData } from "../data/hero";
+import { EmailModal } from "./EmailModal";
 
 // Componentes SVG para redes
 const GitHubIcon = ({ className = "w-5 h-5" }) => (
@@ -20,6 +21,7 @@ export const Hero = () => {
     const [currentText, setCurrentText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [typingSpeed, setTypingSpeed] = useState(150);
+    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
     const roles = useMemo(() => {
         return heroData.roles || (heroData.role ? [heroData.role] : ["Desarrollador Frontend"]);
@@ -86,11 +88,11 @@ export const Hero = () => {
 
     return (
         <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0b0f19] text-white pt-20 pb-8 sm:pt-24 sm:pb-10 px-6">
-            {/* Luces y esferas de degradado luminosas */}
+            {/* Luces y esferas de degradado luminosas optimizadas para GPU móvil */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute -top-32 -right-32 w-[520px] h-[520px] bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-400 rounded-full opacity-35 blur-[120px] animate-pulse"></div>
-                <div className="absolute -bottom-32 -left-32 w-[550px] h-[550px] bg-gradient-to-tr from-purple-600 via-pink-600 to-rose-500 rounded-full opacity-30 blur-[130px] animate-pulse delay-1000"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-gradient-to-r from-violet-600 via-indigo-500 to-blue-500 rounded-full opacity-25 blur-[140px] animate-pulse delay-500"></div>
+                <div className="absolute -top-24 -right-24 sm:-top-32 sm:-right-32 w-80 h-80 sm:w-[520px] sm:h-[520px] bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-400 rounded-full opacity-30 blur-[70px] sm:blur-[120px] animate-pulse transform-gpu"></div>
+                <div className="absolute -bottom-24 -left-24 sm:-bottom-32 sm:-left-32 w-80 h-80 sm:w-[550px] sm:h-[550px] bg-gradient-to-tr from-purple-600 via-pink-600 to-rose-500 rounded-full opacity-25 blur-[70px] sm:blur-[130px] animate-pulse delay-1000 transform-gpu"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 sm:w-[650px] sm:h-[650px] bg-gradient-to-r from-violet-600 via-indigo-500 to-blue-500 rounded-full opacity-20 blur-[80px] sm:blur-[140px] animate-pulse delay-500 transform-gpu"></div>
             </div>
 
             {/* Contenido principal */}
@@ -142,18 +144,27 @@ export const Hero = () => {
                 {/* Redes sociales */}
                 {heroData.socialLinks && (
                     <div className="flex items-center gap-4 mb-6">
-                        {heroData.socialLinks.map((social, index) => (
-                            <a
-                                key={index}
-                                href={social.name === 'Email' ? `mailto:${social.url}` : social.url}
-                                target={social.name === 'Email' ? '_self' : '_blank'}
-                                rel="noopener noreferrer"
-                                aria-label={social.name}
-                                className="p-2.5 sm:p-3 rounded-full bg-white/[0.06] border border-white/10 text-slate-300 hover:text-white hover:bg-white/15 hover:border-white/30 hover:scale-105 shadow-md transition-all"
-                            >
-                                {renderSocialIcon(social.icon || social.name)}
-                            </a>
-                        ))}
+                        {heroData.socialLinks.map((social, index) => {
+                            const isEmail = social.name === 'Email';
+                            return (
+                                <a
+                                    key={index}
+                                    href={isEmail ? `mailto:${social.url}` : social.url}
+                                    target={isEmail ? '_self' : '_blank'}
+                                    rel="noopener noreferrer"
+                                    aria-label={social.name}
+                                    onClick={(e) => {
+                                        if (isEmail) {
+                                            e.preventDefault();
+                                            setIsEmailModalOpen(true);
+                                        }
+                                    }}
+                                    className="p-2.5 sm:p-3 rounded-full bg-white/[0.06] border border-white/10 text-slate-300 hover:text-white hover:bg-white/15 hover:border-white/30 hover:scale-105 shadow-md transition-all cursor-pointer"
+                                >
+                                    {renderSocialIcon(social.icon || social.name)}
+                                </a>
+                            );
+                        })}
                     </div>
                 )}
 
@@ -185,6 +196,12 @@ export const Hero = () => {
             <div className="absolute top-40 right-20 w-4 h-4 bg-purple-400 rounded-full opacity-70 shadow-lg shadow-purple-500/50 animate-float delay-1000"></div>
             <div className="absolute bottom-40 left-20 w-2.5 h-2.5 bg-emerald-400 rounded-full opacity-70 shadow-lg shadow-emerald-500/50 animate-float delay-2000"></div>
             <div className="absolute bottom-20 right-10 w-3.5 h-3.5 bg-cyan-400 rounded-full opacity-70 shadow-lg shadow-cyan-500/50 animate-float delay-3000"></div>
+
+            <EmailModal
+                isOpen={isEmailModalOpen}
+                onClose={() => setIsEmailModalOpen(false)}
+                email="jesusmanuelsanchezquinonez@gmail.com"
+            />
         </section>
     );
 };

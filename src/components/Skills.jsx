@@ -31,12 +31,12 @@ export const Skills = ({ hasAnimated = {} }) => {
     return (
         <section id="skills" className="relative py-24 px-6 bg-[#0b0f19] text-white overflow-hidden">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
-                <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/4 w-72 h-72 sm:w-96 sm:h-96 bg-purple-600/10 rounded-full blur-2xl sm:blur-3xl transform-gpu"></div>
+                <div className="absolute top-1/3 right-1/4 w-72 h-72 sm:w-96 sm:h-96 bg-blue-600/10 rounded-full blur-2xl sm:blur-3xl transform-gpu"></div>
             </div>
 
             <div className="relative z-10 max-w-6xl mx-auto">
-                <div className={`transition-all duration-1000 delay-400 ${hasAnimated?.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className={`transition-all duration-500 ease-out ${hasAnimated?.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                     <div className="text-center mb-16">
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-300 mb-4">
                             <span>Mis competencias</span>

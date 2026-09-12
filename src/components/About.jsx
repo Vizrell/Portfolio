@@ -32,12 +32,12 @@ export const About = ({ hasAnimated = {} }) => {
         <section id="about" className="relative py-24 px-6 bg-[#0b0f19] text-white overflow-hidden">
             {/* Luces difuminadas de fondo que conectan con los tonos del Hero */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 right-1/4 w-72 h-72 sm:w-96 sm:h-96 bg-blue-600/10 rounded-full blur-2xl sm:blur-3xl transform-gpu"></div>
+                <div className="absolute bottom-0 left-1/4 w-72 h-72 sm:w-96 sm:h-96 bg-purple-600/10 rounded-full blur-2xl sm:blur-3xl transform-gpu"></div>
             </div>
 
             <div className="relative z-10 max-w-6xl mx-auto">
-                <div className={`transition-all duration-1000 delay-200 ${hasAnimated?.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className={`transition-all duration-500 ease-out ${hasAnimated?.about ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                     
                     {/* Encabezado de la sección */}
                     <div className="text-center mb-16">

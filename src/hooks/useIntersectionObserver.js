@@ -19,10 +19,14 @@ export const useIntersectionObserver = () => {
                     }
                 });
             },
-            { threshold: 0.1 }
+            {
+                threshold: 0.02,
+                rootMargin: "150px 0px 50px 0px"
+            }
         );
 
-        document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+        const elements = document.querySelectorAll('section[id]');
+        elements.forEach(el => observer.observe(el));
 
         return () => {
             observer.disconnect();

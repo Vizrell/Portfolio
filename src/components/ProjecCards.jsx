@@ -14,6 +14,10 @@ export const ProjectCard = ({ project }) => {
                     <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="350"
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                 ) : (
